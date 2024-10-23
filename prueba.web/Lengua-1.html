@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de seleccion multiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+
+</head>
+<body>
+
+    <h1>Lengua Castellana</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+</body>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const quizContainer = document.getElementById("quiz");
+        const resultContainer = document.getElementById("result");
+        const submitButton = document.getElementById("submit");
+
+        // Agrega preguntas y respuestas
+        const questions = [
+            {
+                question: "En el mundo moderno, la tecnología ha revolucionado todos los aspectos de la vida cotidiana. Desde la forma en que nos comunicamos hasta cómo trabajamos y nos entretenemos, su impacto es innegable. (1) Una de las áreas más influidas es la educación. Hoy en día, los estudiantes tienen acceso a una cantidad abrumadora de información a través de internet, lo que ha cambiado drásticamente la forma de aprender. Sin embargo, con esta abundancia de información también surgen nuevos desafíos, como la necesidad de desarrollar habilidades para filtrar datos y distinguir lo relevante de lo superfluo.</br>Por otro lado, los avances tecnológicos también han permitido el desarrollo de herramientas educativas más personalizadas. (2) Aplicaciones y plataformas en línea ofrecen la posibilidad de crear planes de estudio adaptados a las necesidades de cada estudiante, facilitando así un aprendizaje más efectivo. Además, estas herramientas permiten a los educadores evaluar de manera más precisa el progreso de sus alumnos.</br>A pesar de todos estos avances, aún existen barreras que dificultan el acceso igualitario a la tecnología. (3) Muchas comunidades en el mundo todavía no cuentan con la infraestructura necesaria para beneficiarse de estas herramientas, lo que genera una brecha digital cada vez más grande entre aquellos que tienen acceso a internet y los que no.</br><u>¿Cuál es la idea central del texto?</u>",
+                answers: {
+                    a: "La transformación de la educación a través de la personalización de herramientas digitales.",
+                    b: "La influencia de la tecnología en la comunicación y el trabajo cotidiano.",
+                    c: "La revolución tecnológica ha planteado tanto oportunidades como retos en el ámbito educativo.",
+                    d: "La creciente dificultad para filtrar información en la era digital.",
+                },
+                correctAnswer: "c"
+            },
+            {
+                question: "Identifica la idea principal del primer párrafo.",
+                answers: {
+                    a: "La tecnología ha modificado drásticamente la interacción humana en el aprendizaje.",
+                    b: "El acceso a información en línea exige nuevas competencias de análisis.",
+                    c: "La educación moderna depende completamente de la tecnología.",
+                    d: "Los estudiantes disfrutan de una mayor libertad de aprendizaje gracias a internet.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "¿Cuál es la idea secundaria del segundo párrafo?",
+                answers: {
+                    a: "Las plataformas digitales permiten una personalización en la enseñanza.",
+                    b: "La educación tradicional ha sido superada por las nuevas tecnologías.",
+                    c: "El papel de los educadores ha cambiado radicalmente en la era digital.",
+                    d: "Las herramientas educativas actuales son difíciles de implementar en las aulas.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "¿Qué se interpreta de la expresión: (la brecha digital es un problema cada vez mayor)?",
+                answers: {
+                    a: "El acceso a la tecnología está mejorando lentamente para todos.",
+                    b: "Existe una creciente disparidad en el acceso a recursos digitales entre diferentes comunidades.",
+                    c: "La falta de infraestructura está siendo abordada eficientemente por las autoridades.",
+                    d: "La tecnología se está volviendo irrelevante para la educación moderna.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "¿Cuál es la estructura del tercer párrafo?",
+                answers: {
+                    a: "Presenta un argumento y lo sustenta con ejemplos concretos.",
+                    b: "Describe una tendencia y discute sus implicaciones en la educación.",
+                    c: "Plantea un problema y expone las consecuencias de dicho problema.",
+                    d: "Ofrece una solución a un dilema actual en el acceso a la tecnología.",
+                },
+                correctAnswer: "c"
+            },
+            {
+                question: "<u>Significado contextual</u></br>Lee la siguiente frase y selecciona el significado contextual de la palabra (claro) en este caso:Desde la ventana, se podía ver un claro en el bosque, donde los árboles se separaban y la luz del sol iluminaba el suelo.",
+                answers: {
+                    a: "Fácil de entender.",
+                    b: "Espacio despejado.",
+                    c: "Sin color intenso.",
+                    d: "Voz fuerte.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "<u>Sinonimia</u></br>¿Cuál es el sinónimo más adecuado para la palabra (efímero) en la siguiente oración? El éxito de esa banda fue efímero, pues rápidamente cayeron en el olvido.",
+                answers: {
+                    a: "Permanente.",
+                    b: "Temporal.",
+                    c: "Duradero.",
+                    d: "Interminable.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "<u>Polisemia</u></br>La palabra (banco) es polisémica. Selecciona la opción donde la palabra (banco) tiene un significado diferente al de entidad financiera",
+                answers: {
+                    a: "Los peces nadaban alrededor del banco.",
+                    b: "Fui al banco a retirar dinero.",
+                    c: "El banco aprobó mi solicitud de crédito.",
+                    d: "Dejé mis ahorros en el banco ayer.",
+                },
+                correctAnswer:"a"
+            },
+            {
+                question: "<u>Antonimia</u></br>Selecciona el antónimo correcto de la palabra (generoso)",
+                answers: {
+                    a: "Solidario.",
+                    b: "Egoísta.",
+                    c: "Desinteresado.",
+                    d: "Compasivo.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "<u>Homonimia (Homógrafos y Homófonos)</u></br>Selecciona el par de palabras que representan homónimos homógrafos",
+                answers: {
+                    a: "Bello - Vello.",
+                    b: "Banco (de sentarse) - Banco (entidad financiera).",
+                    c: "Hora - Ora.",
+                    d: "Cien - Sien.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "<u>Paronimia</u></br>¿Cuál de los siguientes pares de palabras es un ejemplo de paronimia?",
+                answers: {
+                    a: "Actitud - Aptitud.",
+                    b: " Casa - Caza.",
+                    c: "Bello - Vello.",
+                    d: "Botar - Votar.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Vicios del lenguaje</u></br>Selecciona el vicio del lenguaje presente en la siguiente oración: Yo pienso de que no deberías ir al cine hoy.",
+                answers: {
+                    a: "Solecismo.",
+                    b: "Barbarismo.",
+                    c: "Pleonasmo.",
+                    d: "Cacofonía.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Abecedario</u></br>¿Cuántas letras tiene el abecedario en español?",
+                answers: {
+                    a: "27.",
+                    b: "26.",
+                    c: "28.",
+                    d: "25.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Vocales cerradas y abiertas</u></br>¿Cuál de las siguientes opciones contiene solo vocales abiertas?",
+                answers: {
+                    a: " A, E, O.",
+                    b: "A, I, U.",
+                    c: "E, O, I.",
+                    d: "I, U.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Diptongo</u></br>¿En cuál de las siguientes palabras hay un diptongo?",
+                answers: {
+                    a: " País.",
+                    b: "Teatro.",
+                    c: "Cielo.",
+                    d: "Día.",
+                },
+                correctAnswer: "c"
+            },
+            {
+                question: "<u>Triptongo</u></br>Selecciona la palabra que tiene un triptongo.",
+                answers: {
+                    a: "Apreciéis.",
+                    b: "Maíz.",
+                    c: "Ciudad.",
+                    d: "Maravilla.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Hiato</u></br>¿En cuál de las siguientes palabras se presenta un hiato?",
+                answers: {
+                    a: "Cielo.",
+                    b: "Raíz.",
+                    c: "Piedra.",
+                    d: "Cuadro.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "<u>Silabeo</u></br>Divide en sílabas la palabra (elefante).",
+                answers: {
+                    a: "Ele-fan-te.",
+                    b: " E-lef-an-te.",
+                    c: "E-le-fan-te.",
+                    d: "El-ef-an-te.",
+                },
+                correctAnswer: "c"
+            },
+            {
+                question: "<u>Sílabas átonas y tónicas</u></br>¿Cuál es la sílaba tónica en la palabra (teléfono)?",
+                answers: {
+                    a: "Te.",
+                    b: "Lé.",
+                    c: "Fó.",
+                    d: "No.",
+                },
+                correctAnswer: "c"
+            },
+
+            
+        ];
+
+        // Muestra las preguntas en el contenedor
+        function displayQuiz() {
+            const output = [];
+            questions.forEach((question, questionIndex) => {
+                const options = [];
+                for (letter in question.answers) {
+                    options.push(
+                        `<label>
+                            <input type="radio" name="question${questionIndex}" value="${letter}">
+                            ${letter}: ${question.answers[letter]}
+                        </label>`
+                    );
+                }
+                output.push(
+                    `<div class="question">
+                        <h3>${question.question}</h3>
+                        <div class="options">
+                            ${options.join("")}
+                        </div>
+                    </div>`
+                );
+            });
+            quizContainer.innerHTML = output.join("");
+        }
+
+        // Verifica las respuestas y muestra el puntaje y los resultados
+        function showResults() {
+            const answerContainers = quizContainer.querySelectorAll(".options");
+            let score = 0;
+            let numIncorrect = 0;
+
+            questions.forEach((question, questionIndex) => {
+                const answerContainer = answerContainers[questionIndex];
+                const selector = `input[name=question${questionIndex}]:checked`;
+                const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                if (userAnswer === question.correctAnswer) {
+                    score++;
+                    answerContainer.className = "options correct";
+                } else {
+                    numIncorrect++;
+                    answerContainer.className = "options incorrect";
+                    // Muestra la respuesta correcta
+                    const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                    correctOption.parentNode.style.color = "green";
+                }
+            });
+
+            const resultPercentage = (score / questions.length) * 100;
+            resultContainer.innerHTML = `
+                <p>Puntuación: ${score} / ${questions.length}</p>
+                <p>Respuestas incorrectas: ${numIncorrect}</p>
+                <p>Porcentaje de acierto: ${resultPercentage}%</p>
+            `;
+            resultContainer.style.display = "block";
+        }
+
+        // Event listener para el botón "Enviar"
+        submitButton.addEventListener("click", showResults);
+
+        // Muestra las preguntas al cargar la página
+        displayQuiz();
+    });
+
+
+</script>
+</html>

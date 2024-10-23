@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Constitucion Nacional</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "De acuerdo con el artículo 58 de la Constitución Nacional de la República del Paraguay, ¿cuáles son algunos de los derechos garantizados a las personas excepcionales?",
+                    answers: {
+                        a: "Derechos exclusivos de expresión.",
+                        b: "Derechos prioritarios de propiedad.",
+                        c: "Derechos fundamentales de educación y recreación."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 62 de la Constitución Nacional de la República del Paraguay, ¿cómo se definen los pueblos indígenas?",
+                    answers: {
+                        a: "Grupos de cultura anteriores a la formación del Estado paraguayo.",
+                        b: "Grupos de cultura posteriores a la formación del Estado paraguayo.",
+                        c: "Conjuntos culturales surgidos después de la independencia."
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                    question: "Según el artículo 64 de la Constitución Nacional de la República del Paraguay, ¿qué derechos tienen los pueblos indígenas sobre la propiedad de la tierra?",
+                    answers: {
+                        a: "Derecho a la propiedad privada.",
+                        b: "Derecho a la propiedad comunitaria de la tierra.",
+                        c: "Derecho a la propiedad individual de la tierra."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el artículo 66 de la Constitución Nacional de la República del Paraguay, ¿qué aspectos aborda el Estado en relación con los pueblos indígenas?",
+                    answers: {
+                        a: "Todas las anteriores.",
+                        b: "Protección contra la contaminación ambiental.",
+                        c: "Defensa contra la regresión demográfica."
+                    },
+                    correctAnswer: "a"
+                },
+                
+                 {
+                    question: "Según el artículo 68 de la Constitución Nacional de la República del Paraguay, ¿cuál es la obligación de toda persona en relación con las medidas sanitarias?",
+                    answers: {
+                        a: "Tener un seguro de salud obligatorio.",
+                        b: "Contribuir económicamente al sistema de salud.",
+                        c: "Someterse a las medidas sanitarias establecidas por la ley."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 71 de la Constitución Nacional de la República del Paraguay, ¿cuál es la posición del Estado en relación con las sustancias estupefacientes y drogas peligrosas?",
+                    answers: {
+                        a: "Promoverá la producción y el tráfico ilícitos.",
+                        b: "Legalizará el consumo ilícito de drogas.",
+                        c: "Represión de la producción y el tráfico ilícitos, y combate al consumo ilícito."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: " Según el artículo 73 de la Constitución Nacional de la República del Paraguay, ¿cuáles son los fines de la educación integral y permanente?",
+                    answers: {
+                        a: "Fomentar exclusivamente el desarrollo pleno de la personalidad humana.",
+                        b: "Promover únicamente la libertad y la paz.",
+                        c: "Contribuir a la erradicación del analfabetismo y la capacitación para el trabajo."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 75 de la Constitución Nacional de la República del Paraguay, ¿quién tiene la responsabilidad principal de la educación?",
+                    answers: {
+                        a: "Únicamente el Estado.",
+                        b: "Exclusivamente la familia.",
+                        c: "La sociedad en general."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: "Según el artículo 79 de la Constitución Nacional de la República del Paraguay, ¿cuál es la finalidad principal de las universidades y los institutos superiores?",
+                    answers: {
+                        a: "La investigación científica y tecnológica, así como la extensión universitaria.",
+                        b: "La formación técnica especializada.",
+                        c: "La formación superior especializada."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 91 de la Constitución Nacional de la República del Paraguay, ¿cuál es la duración máxima de la jornada ordinaria de trabajo?",
+                    answers: {
+                        a: "Diez horas diarias y cincuenta horas semanales.",
+                        b: "Ocho horas diarias y cuarenta y ocho horas semanales.",
+                        c: "Doce horas diarias y sesenta horas semanales."
+                    },
+                    correctAnswer: "b"
+                },
+                
+                 {
+                    question: "Según el artículo 98 de la Constitución Nacional de la República del Paraguay, ¿quién no goza del derecho de huelga ni de paro?",
+                    answers: {
+                        a: "Los miembros de las Fuerzas Armadas de la Nación",
+                        b: "La policia Nacional",
+                        c: "Las fuerzas armadas"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 100 de la Constitución Nacional de la República del Paraguay, ¿quién tiene derecho a una vivienda digna?",
+                    answers: {
+                        a: "Todos los habitantes de la República.",
+                        b: "Solo los ciudadanos paraguayos.",
+                        c: "Solo los habitantes urbanos."
+                    },
+                    correctAnswer: "a"
+                },
+                
+                 {
+                    question: "¿Quiénes tienen el derecho a participar en los asuntos públicos, según el artículo 117 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: " Solo los ciudadanos paraguayos nacidos en el país.",
+                        b: "Todos los ciudadanos, sin distinción de sexo.",
+                        c: "Solo los mayores de 18 años"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuáles son los principios fundamentales del sufragio según el artículo 118 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Voto universal y libre.",
+                        b: "Voto directo y escrutinio secreto.",
+                        c: "Todos los anteriores."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: "¿Quiénes son electores según el artículo 120 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Ciudadanos paraguayos radicados en el territorio nacional mayores de 18 años.",
+                        b: "Ciudadanos paraguayos mayores de 18 años.",
+                        c: "Todos los anteriores."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 122 de la Constitución Nacional de la República del Paraguay, ¿cuáles de las siguientes no podrán ser objeto de referéndum?",
+                    answers: {
+                        a: "Relaciones internacionales, tratados, convenios o acuerdos internacionales.",
+                        b: "Expropiaciones.",
+                        c: "Todas las anteriores."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: "¿Cuál de las siguientes afirmaciones describe correctamente el principio establecido en el artículo 127 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Toda persona está obligada al cumplimiento de la ley, y la crítica a las leyes es libre, pero no está permitido predicar su desobediencia.",
+                        b: "Solo se permite la crítica a las leyes si es respaldada por la mayoría de la población.",
+                        c: " Está permitido desobedecer las leyes si se critican abiertamente."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 128 de la Constitución Nacional de la República del Paraguay, ¿en algún caso el interés de los particulares puede primar sobre el interés general?",
+                    answers: {
+                        a: "Sí, siempre.",
+                        b: "Solo en situaciones excepcionales.",
+                        c: " No, nunca."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: "Según el artículo 131 de la Constitución Nacional de la República del Paraguay, ¿qué establece este artículo en relación con los derechos consagrados?",
+                    answers: {
+                        a: "Anula los derechos consagrados.",
+                        b: "Establece las garantías para hacer efectivos los derechos.",
+                        c: "Modifica los derechos consagrados."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuál es la facultad de la Corte Suprema de Justicia según el artículo 132 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Elaborar normas jurídicas.",
+                        b: "Declarar la inconstitucionalidad de normas y resoluciones judiciales.",
+                        c: "Dictar resoluciones judiciales."
+                    },
+                    correctAnswer: "b"
+                },
+                
+                
+ ];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

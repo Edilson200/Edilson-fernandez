@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de seleccion multiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+
+</head>
+<body>
+
+    <h1>Lengua Castellana</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+</body>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const quizContainer = document.getElementById("quiz");
+        const resultContainer = document.getElementById("result");
+        const submitButton = document.getElementById("submit");
+
+        // Agrega preguntas y respuestas
+        const questions = [
+            {
+                question: "<u>Acentuación de palabras monosílabas</u></br>¿Cuál de las siguientes palabras monosílabas lleva tilde para diferenciar su significado?",
+                answers: {
+                    a: "Se.",
+                    b: "De.",
+                    c: "Té.",
+                    d: "Me.",
+                },
+                correctAnswer: "c"
+            },
+            {
+                question: "<u>Acentuación de palabras polisílabas</u></br>¿Cuál de las siguientes palabras polisílabas está correctamente acentuada?",
+                answers: {
+                    a: "Computadora.",
+                    b: "Arboles.",
+                    c: "Caminó.",
+                    d: "Programacion.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Acentuación de palabras agudas</u></br>¿Cuál de las siguientes palabras es una palabra aguda con tilde?",
+                answers: {
+                    a: "Azúcar.",
+                    b: "Trabajó.",
+                    c: "Lunes.",
+                    d: "Colores.",
+                },
+                correctAnswer:"b"
+            },
+            {
+                question: "<u>Acentuación de palabras llanas (o graves)</u></br>¿Cuál es la palabra grave correctamente acentuada?",
+                answers: {
+                    a: "Fácil.",
+                    b: "Camion.",
+                    c: "Lapiz.",
+                    d: "Volar.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Acentuación de palabras esdrújulas</u></br>Selecciona la palabra que es esdrújula.",
+                answers: {
+                    a: "América.",
+                    b: "Compras.",
+                    c: "Amor.",
+                    d: "Verdad.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Acentuación de palabras sobreesdrújulas</u></br>¿Cuál es la palabra sobreesdrújula en esta lista?",
+                answers: {
+                    a: "Últimamente.",
+                    b: "Facilísimo.",
+                    c: "Teléfono.",
+                    d: "Proporcionándoselo.",
+                },
+                correctAnswer: "d"
+            },
+            {
+                question: "<u>Acentuación de palabras compuestas</u></br>¿Cuál es la regla correcta de acentuación para las palabras compuestas?",
+                answers: {
+                    a: "Solo la segunda palabra lleva tilde si le corresponde.",
+                    b: "Ambas palabras llevan tilde si son graves.",
+                    c: "Las palabras compuestas siempre llevan tilde.",
+                    d: "La primera palabra lleva tilde sin importar la segunda.",
+                },
+                correctAnswer: "a"
+            },
+             {
+                question: "<u>Tilde diacrítica</u></br>¿En cuál de las siguientes oraciones se usa correctamente la tilde diacrítica?",
+                answers: {
+                    a: " Si tú vienes, yo también iré.",
+                    b: "Dame un poco de té para acompañar el postre.",
+                    c: " Mas no quiero seguir discutiendo.",
+                    d: "Me pregunto como hiciste eso tan rápido.",
+                },
+                correctAnswer: "b"
+            },
+            {
+                question: "<u>Casos especiales</u></br>Selecciona la palabra correctamente acentuada según las reglas especiales de acentuación",
+                answers: {
+                    a: "Guion.",
+                    b: "Fe.",
+                    c: "Freir.",
+                    d: "Río.",
+                },
+                correctAnswer: "d"
+            },
+            {
+                question: "<u>Palabras con doble acentuación</u></br>¿Cuál de las siguientes palabras tiene doble acentuación válida?",
+                answers: {
+                    a: "Video - Vídeo.",
+                    b: "Café - Cafe.",
+                    c: "Pez - Pés.",
+                    d: "Fácil - Facil.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Uso de las mayúsculas</u></br>¿En cuál de las siguientes oraciones se han usado las mayúsculas correctamente?",
+                answers: {
+                    a: "Me gusta ir a la playa en el Verano",
+                    b: "La Revolución Francesa cambió la historia de Europa.",
+                    c: "Ayer vimos el partido de fútbol en el estadio Santiago bernabéu.",
+                    d: "Este año la navidad será diferente.",
+                },
+                correctAnswer: "b"
+            },
+             {
+                question: "<u>Abreviaturas</u></br>¿Cuál es la abreviatura correcta de señor?",
+                answers: {
+                    a: "Sr.",
+                    b: " S.r.",
+                    c: "Sñ.",
+                    d: "Se.",
+                },
+                correctAnswer: "a"
+            },
+            {
+                question: "<u>Siglas y acrónimos de uso frecuente</u></br>¿Qué significan las siglas ONU?",
+                answers: {
+                    a: "Organización de Naciones Unidas.",
+                    b: "Organismo Nacional Universal.",
+                    c: "Oficina Nacional de Urgencias.",
+                    d: "Organización Nueva Universal.",
+                },
+                correctAnswer: "a"
+            },
+             {
+                question: "<u>Signos de puntuación</u></br>Selecciona la opción donde se han usado correctamente los signos de puntuación",
+                answers: {
+                    a: "¿Cómo estás? ya no te veo desde la semana pasada.",
+                    b: "Mis amigos; Ana, Juan y Carla, llegaron tarde.",
+                    c: "Comimos pizza, hamburguesa, y refresco.",
+                    d: "La película fue interesante, pero un poco larga.",
+                },
+                correctAnswer: "d"
+            },
+            {
+                question: "<u>La coma</u></br>Selecciona la oración donde la coma está correctamente utilizada",
+                answers: {
+                    a: "Fuimos al cine, y compramos palomitas de maíz.",
+                    b: "María, Juana y Ana, llegaron tarde a la fiesta.",
+                    c: "Ayer vi a Luis, mi amigo de la infancia, en el supermercado.",
+                    d: "El perro corrió rápidamente, pero se cansó.",
+                },
+                correctAnswer: "c"
+            },
+            
+        ];
+
+        // Muestra las preguntas en el contenedor
+        function displayQuiz() {
+            const output = [];
+            questions.forEach((question, questionIndex) => {
+                const options = [];
+                for (letter in question.answers) {
+                    options.push(
+                        `<label>
+                            <input type="radio" name="question${questionIndex}" value="${letter}">
+                            ${letter}: ${question.answers[letter]}
+                        </label>`
+                    );
+                }
+                output.push(
+                    `<div class="question">
+                        <h3>${question.question}</h3>
+                        <div class="options">
+                            ${options.join("")}
+                        </div>
+                    </div>`
+                );
+            });
+            quizContainer.innerHTML = output.join("");
+        }
+
+        // Verifica las respuestas y muestra el puntaje y los resultados
+        function showResults() {
+            const answerContainers = quizContainer.querySelectorAll(".options");
+            let score = 0;
+            let numIncorrect = 0;
+
+            questions.forEach((question, questionIndex) => {
+                const answerContainer = answerContainers[questionIndex];
+                const selector = `input[name=question${questionIndex}]:checked`;
+                const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                if (userAnswer === question.correctAnswer) {
+                    score++;
+                    answerContainer.className = "options correct";
+                } else {
+                    numIncorrect++;
+                    answerContainer.className = "options incorrect";
+                    // Muestra la respuesta correcta
+                    const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                    correctOption.parentNode.style.color = "green";
+                }
+            });
+
+            const resultPercentage = (score / questions.length) * 100;
+            resultContainer.innerHTML = `
+                <p>Puntuación: ${score} / ${questions.length}</p>
+                <p>Respuestas incorrectas: ${numIncorrect}</p>
+                <p>Porcentaje de acierto: ${resultPercentage}%</p>
+            `;
+            resultContainer.style.display = "block";
+        }
+
+        // Event listener para el botón "Enviar"
+        submitButton.addEventListener("click", showResults);
+
+        // Muestra las preguntas al cargar la página
+        displayQuiz();
+    });
+
+
+</script>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Matematica MCM y MCD</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                  question: "Encuentra el Máximo Común Divisor (MCD) de 180, 240 y 300.",
+                    answers: {
+                        a: "30",
+                        b: "60",
+                        c: "90"
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                  question: "Encuentra el Máximo Común Divisor (MCD) de 126, 210 y 315.",
+                    answers: {
+                        a: "21",
+                        b: "22",
+                        c: "23"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                  question: "Encuentra el Máximo Común Divisor (MCD) de 144, 216 y 288.",
+                    answers: {
+                        a: "70",
+                        b: "71",
+                        c: "72"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                  question: "Juan tiene un jardín rectangular que mide 72 metros de largo y 96 metros de ancho. Quiere dividir el jardín en cuadrados del mismo tamaño para plantar diferentes tipos de flores. Si desea que los lados de los cuadrados sean lo más largos posible y que no haya desperdicio de espacio, ¿cuál debería ser el tamaño de cada cuadrado?",
+                    answers: {
+                        a: "48 metros",
+                        b: "49 metros",
+                        c: "50 metros"
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                  question: "Encuentra el Mínimo Común Múltiplo (MCM) de 36, 48 y 72.",
+                    answers: {
+                        a: "143",
+                        b: "144",
+                        c: "145"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                  question: "Encuentra el Mínimo Común Múltiplo (MCM) de 45, 60 y 75.",
+                    answers: {
+                        a: "9",
+                        b: "90",
+                        c: "900"
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                  question: "Encuentra el Mínimo Común Múltiplo (MCM) de 24, 36 y 54.",
+                    answers: {
+                        a: "116",
+                        b: "216",
+                        c: "226"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                  question: "Un agricultor tiene tres campos rectangulares. El primer campo mide 48 metros de largo y 72 metros de ancho, el segundo campo mide 60 metros de largo y 90 metros de ancho, y el tercer campo mide 36 metros de largo y 54 metros de ancho. El agricultor quiere cercar cada campo con alambre de manera que no haya desperdicio de alambre y que cada campo tenga la misma cantidad de alambre alrededor. ¿Cuántos metros de alambre necesitará en total?",
+                    answers: {
+                        a: "720 metros de alambre",
+                        b: "730 metros de alambre",
+                        c: "740 metros de alambre"
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                  question: "María tiene tres cajas con caramelos para vender. La primera caja contiene 120 caramelos, la segunda contiene 150 caramelos y la tercera contiene 180 caramelos. Ella quiere distribuir todos los caramelos en bolsas iguales sin que sobre ningún caramelo en ninguna caja. ¿Cuál es la mayor cantidad de caramelos que puede poner en cada bolsa?",
+                    answers: {
+                        a: "La mayor cantidad de caramelos que María puede poner en cada bolsa es 15.",
+                        b: "La mayor cantidad de caramelos que María puede poner en cada bolsa es 20.",
+                        c: "La mayor cantidad de caramelos que María puede poner en cada bolsa es 30."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Un grupo de amigos decide alquilar una casa de vacaciones. El alquiler total de la casa es de $1200. Si hubieran sido 5 personas más en el grupo, cada persona habría pagado $20 menos. ¿Cuántas personas hay en el grupo?",
+                      answers: {
+                          a: "Hay 13 personas en el grupo.",
+                          b: "Hay 14 personas en el grupo.",
+                          c: "Hay 15 personas en el grupo."
+                      },
+                      correctAnswer: "C"
+                  },
+ ];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

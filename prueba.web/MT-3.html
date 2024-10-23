@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Matematica Razones y proporciones.</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                  question: "La edad de Juan hace 5 años era de 20 años, y la edad de María hace 3 años era de 18 años. Calcula la razón aritmética de sus edades actuales.",
+                    answers: {
+                        a: "23",
+                        b: "24",
+                        c: "25"
+                    },
+                    correctAnswer: "a"
+                },
+                  {
+                  question: "Hace 8 años, las edades de tres amigos eran 15, 20 y 25 años, respectivamente. Calcula la razón aritmética de sus edades actuales.",
+                    answers: {
+                        a: "10",
+                        b: "11",
+                        c: "12"
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                  question: "Una secuencia geométrica está formada por los números 2,6,18,54. Calcula la razón geométrica de la secuencia.",
+                    answers: {
+                        a: "2",
+                        b: "3",
+                        c: "4"
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                  question: "Una secuencia geométrica está formada por los números 4,12,36,108. Calcula la razón geométrica de la secuencia.",
+                    answers: {
+                        a: "3",
+                        b: "4",
+                        c: "5"
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                  question: "En una progresión aritmética, el primer término es 5 y el cuarto término es 17. Calcula el segundo y tercer término de la progresión.",
+                    answers: {
+                        a: "19 y 13",
+                        b: "18 y 13",
+                        c: "18 y 20"
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                  question: "En una progresión aritmética, el primer término es 12 y el quinto término es 32. Encuentra el segundo y tercer término de la progresión.",
+                    answers: {
+                        a: "17 y 23",
+                        b: "17 y 22",
+                        c: "17 y 33"
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                  question: "En una progresión geométrica, el primer término es 3 y el cuarto término es 48. Calcula la razón común de la progresión.",
+                    answers: {
+                        a: "2",
+                        b: "3",
+                        c: "4"
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                  question: "En una progresión geométrica, el primer término es 4 y el quinto término es 64. Encuentra la razón común de la progresión.",
+                    answers: {
+                        a: "1",
+                        b: "2",
+                        c: "3"
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                  question: "Si 5 camiones pueden transportar 125 toneladas de carga en 8 horas, ¿cuántas toneladas de carga puede transportar un solo camión en 6 horas?",
+                    answers: {
+                        a: "24/5",
+                        b: "22/5",
+                        c: "23/5"
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                  question: "Si 15 estudiantes pueden pintar una cerca en 9 horas, ¿cuántos estudiantes se necesitarían para pintar la misma cerca en 5 horas?",
+                    answers: {
+                        a: "3",
+                        b: "8",
+                        c: "17"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                  question: "Un grupo de trabajadores puede construir un muro en 10 días trabajando 8 horas al día. Si se reducen las horas de trabajo a 6 al día, ¿en cuántos días completarán el mismo muro?",
+                    answers: {
+                        a: "5",
+                        b: "13",
+                        c: "25"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                  question: "Un grupo de obreros puede cavar una zanja de 60 metros de longitud en 12 días, trabajando 6 horas al día. Si se desea completar la zanja en 8 días, ¿cuántas horas al día deberían trabajar?",
+                    answers: {
+                        a: "El grupo de obreros debería trabajar 3 horas al día.",
+                        b: "El grupo de obreros debería trabajar 6 horas al día.",
+                        c: "El grupo de obreros debería trabajar 9 horas al día."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                  question: "En una tienda de 80 camisetas, el 15% son rojas, el 30% son azules y el resto son verdes. ¿Cuántas camisetas verdes hay en la tienda?",
+                    answers: {
+                        a: "Hay 44 camisetas verdes en la tienda.",
+                        b: "Hay 45 camisetas verdes en la tienda.",
+                        c: "Hay 46 camisetas verdes en la tienda."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                  question: "En una canasta de frutas, el 20% son manzanas, el 30% son plátanos y el resto son uvas. Si hay 50 frutas en total, ¿cuántas son uvas?",
+                    answers: {
+                        a: "Hay 25 uvas en la canasta.",
+                        b: "Hay 26 uvas en la canasta.",
+                        c: "Hay 27 uvas en la canasta."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                  question: "Un grupo de estudiantes va de excursión y decide compartir gastos de gasolina para el viaje en coche. Si 4 estudiantes pueden cubrir el costo de 2 tanques de gasolina en 200 kilómetros, ¿cuántos tanques de gasolina necesitarán 8 estudiantes para recorrer 400 kilómetros?",
+                    answers: {
+                        a: "6",
+                        b: "7",
+                        c: "8"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                  question: "Un grupo de estudiantes planea comprar libros para compartirlos en sus estudios. Si 3 estudiantes pueden comprar 5 libros por $60 cada uno, ¿cuántos libros podrán comprar 6 estudiantes con el mismo presupuesto de $300?",
+                    answers: {
+                        a: "Podrán comprar 40 libros.",
+                        b: "Podrán comprar 50 libros.",
+                        c: "Podrán comprar 60 libros."
+                    },
+                    correctAnswer: "b"
+                },
+ ];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

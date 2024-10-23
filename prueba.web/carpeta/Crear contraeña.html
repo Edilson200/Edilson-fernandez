@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Contraseña</title>
+    <style>
+        /* Estilos (puedes personalizarlos según tus preferencias) */
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: black;
+        }
+
+        #passwordForm {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #passwordForm input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #createPassword {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #createPassword:hover {
+            background-color: #45a049;
+        }
+
+        .mensaje-error {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crear Contraseña</h1>
+
+    <div id="passwordForm">
+        <label for="newPassword">Crea tu contraseña:</label>
+        <input type="password" id="newPassword" placeholder="Contraseña">
+        <br>
+        <label for="confirmPassword">Confirma tu contraseña:</label>
+        <input type="password" id="confirmPassword" placeholder="Confirmar contraseña">
+        <br>
+        <button id="createPassword">Crear Contraseña</button>
+        <p id="passwordErrorMessage" class="mensaje-error"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const createPasswordButton = document.getElementById("createPassword");
+            const passwordErrorMessage = document.getElementById("passwordErrorMessage");
+
+            createPasswordButton.addEventListener("click", function() {
+                const newPassword = document.getElementById("newPassword").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (newPassword === confirmPassword) {
+                    localStorage.setItem("paginaProtegidaPassword", newPassword);
+                    passwordErrorMessage.textContent = "Contraseña creada exitosamente.";
+                } else {
+                    passwordErrorMessage.textContent = "Las contraseñas no coinciden. Intenta de nuevo.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

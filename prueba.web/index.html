@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu de Inicio</title>
+<style>
+ /* Estilos básicos */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.whatsapp-navbar {
+  background-color: #075e54;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  overflow: hidden;
+}
+
+.whatsapp-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.whatsapp-brand img {
+  width: 30px;
+  margin-right: 10px;
+}
+
+.whatsapp-actions {
+  display: flex;
+  justify-content: space-between;
+  background-color: #054027;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.whatsapp-actions button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 10px;
+  transition: background-color 0.3s, color 0.3s;
+    
+}
+
+.whatsapp-actions button:hover {
+  text-decoration: underline;
+  background-color: #128c7e;
+}
+
+/* Estilos de la sección de chat */
+.chat-container {
+  margin: 20px;
+}
+
+.chat {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.chat-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.chat-item:hover {
+  background-color: #f2f2f2;
+}
+
+.chat-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.chat-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.chat-info p {
+  margin: 0;
+  font-size: 14px;
+  text-decoration: none;
+  color: #888;
+}
+
+/* Animación para simular la carga de chats */
+@keyframes chatLoading {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.chat-item.loading {
+  animation: chatLoading 1s infinite;
+}
+
+</style>
+</head>
+<body>
+  <header class="whatsapp-navbar">
+    <div class="whatsapp-brand">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRDZruGmQK6ZItpFn2aqDU7B3wi_Z_Xb418w&usqp=CAU" alt="WhatsApp Logo">
+      <h1>Examen de ingreso por UNIDADES</h1>
+    </div>
+   <div class="whatsapp-actions">
+  <button class="action-button" onclick="window.location.href='pagina_novedades.html'">Novedades</button>
+  <button class="action-button" onclick="window.location.href='preguntados.html'">Juego de preguntas</button>
+  <button class="action-button" onclick="window.location.href='materialesdeapoyo.html'">Materiales de apoyo</button>
+</div>
+
+  </header>
+
+  <div class="chat-container">
+    <div class="chat">
+      <a href="Constitucion-UNIDADES.html" class="chat-item">
+        <img src="https://th.bing.com/th/id/OIP.3gez4u2O6OEoq45N-iy5ywAAAA?w=474&h=292&rs=1&pid=ImgDetMain" alt="Profile 1">
+        <div class="chat-info">
+          <h3>Constitucion Nacional</h3>
+          <p>Unidades a estudiar</p>
+        </div>
+      </a>
+
+      <a href="Nines-unidades.html" class="chat-item">
+        <img src="https://th.bing.com/th/id/OIP.3gez4u2O6OEoq45N-iy5ywAAAA?w=474&h=292&rs=1&pid=ImgDetMain" alt="Profile 1">
+        <div class="chat-info">
+          <h3>Codigo de la Niñez</h3>
+          <p>Unidades a estudiar</p>
+        </div>
+      </a>
+
+      <a href="Matematica-UNIDADES .html" class="chat-item">
+        <img src="M-logo.png">
+        <div class="chat-info">
+          <h3>Matematica</h3>
+          <p>Unidades a estudiar</p>
+        </div>
+      </a>
+         <a href="Lengua-UNIDADES.html" class="chat-item">
+        <img src="L-logo.jpg" alt="Profile 2">
+        <div class="chat-info">
+          <h3>Castellano</h3>
+          <p>Estudiame porfavor</p>
+        </div>
+      </a>
+         <a href="chat2.html" class="chat-item">
+        <img src="H-logo.jpg" alt="Profile 2">
+        <div class="chat-info">
+          <h3>Historia</h3>
+          <p>Unidades a estudiar</p>
+        </div>
+      </a>
+         <a href="chat2.html" class="chat-item">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRDZruGmQK6ZItpFn2aqDU7B3wi_Z_Xb418w&usqp=CAU" alt="Profile 2">
+        <div class="chat-info">
+          <h3>Guarani</h3>
+          <p>Unidades a estudiar</p>
+        </div>
+      </a>
+
+      <a href="https://www.facebook.com/edilson.fernandez.581/about" class="chat-item">
+        <img src="ia.png" alt="Profile 2">
+        <div class="chat-info">
+          <h3>Contactos</h3>
+          <p>Click para mas info.</p>
+        </div>
+      </a>
+      <!-- Agregar más chats de la misma forma -->
+    </div>
+  </div>
+</body>
+    <script>
+    // Smooth scrolling for buttons in the navbar
+    document.querySelectorAll('.whatsapp-actions button').forEach(button => {
+      button.addEventListener('click', () => {
+        const target = button.innerText.toLowerCase();
+        const element = document.getElementById(target);
+        element.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Highlight chat items on hover
+    const chatItems = document.querySelectorAll('.chat-item');
+    chatItems.forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        item.style.backgroundColor = '#f2f2f2';
+      });
+      item.addEventListener('mouseleave', () => {
+        item.style.backgroundColor = 'transparent';
+      });
+    });
+    </script>
+</html>

@@ -1,0 +1,271 @@
+<<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Juego de Preguntas</title>
+  <style>
+  /* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.quiz-container {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  width: 90%;
+}
+
+.question {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
+
+input[type="submit"] {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para opciones */
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label.option {
+  background-color: #ccffcc;
+  color: green;
+  font-weight: bold;
+}
+
+.option {
+  display: block;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.5s ease;
+}
+
+.option:hover {
+  background-color: #e0e0e0;
+}
+
+/* Temporizador */
+#timer {
+  font-size: 18px;
+  margin-top: 20px;
+  color: black; /* Color inicial del temporizador */
+  animation: countdown 15s linear forwards; /* Duración del temporizador */
+}
+
+@keyframes countdown {
+  1% {
+    color: black; /* Color del temporizador en los primeros 14 segundos */
+  }
+  100% {
+    color: red; /* Cambio a rojo cuando llegue a los 5 segundos */
+  }
+}
+
+
+/* Estilos para alertas */
+.alert-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.alert {
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.alert-success {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.alert-danger {
+  background-color: #d9534f;
+  color: white;
+}
+
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="question">
+      <h2 id="question">¿Cuál es la capital de Francia?</h2>
+      <div id="timer">Tiempo restante: <span id="time">15</span> segundos</div>
+      <img src="example_image.jpg" alt="Imagen de ejemplo" id="image">
+      <form id="quizForm">
+        <input type="radio" name="answer" value="a" id="optionA"> <label for="optionA" class="option">Madrid</label><br>
+        <input type="radio" name="answer" value="b" id="optionB"> <label for="optionB" class="option">París</label><br>
+        <input type="radio" name="answer" value="c" id="optionC"> <label for="optionC" class="option">Berlín</label><br>
+        <input type="submit" value="Enviar">
+      </form>
+    </div>
+  </div>
+
+  <script>
+   // Preguntas, imágenes, opciones y respuestas correspondientes
+const questions = [
+  {
+    question: "¿Cuál es la capital de Francia?",
+    image: "https://th.bing.com/th/id/OIP.H9Vc5jwlovCpsE4csEo8GwHaE7?rs=1&pid=ImgDetMain",
+    options: ["Madrid", "París", "Berlín"],
+    answer: "b",
+    correctResponse: "¡Correcto! La capital de Francia es París.",
+    incorrectResponse: "Respuesta incorrecta. La capital de Francia es París."
+  },
+  {
+    question: "¿Cuál es el río más largo del mundo?",
+    image: "https://th.bing.com/th/id/OIP.H9Vc5jwlovCpsE4csEo8GwHaE7?rs=1&pid=ImgDetMain",
+    options: ["Amazonas", "Nilo", "Yangtsé"],
+    answer: "a",
+    correctResponse: "¡Excelente! El río más largo del mundo es el Amazonas.",
+    incorrectResponse: "Respuesta incorrecta. El río más largo del mundo es el Amazonas."
+  }
+  // Agregar más preguntas de la misma forma
+];
+
+// Obtener elementos del DOM
+const questionElement = document.getElementById('question');
+const imageElement = document.getElementById('image');
+const quizForm = document.getElementById('quizForm');
+const timer = document.getElementById('timer');
+
+let currentQuestion = 0;
+let timeLeft = 15;
+
+function loadQuestion() {
+  const currentQuizData = questions[currentQuestion];
+
+  questionElement.textContent = currentQuizData.question;
+  imageElement.src = currentQuizData.image;
+
+  const labels = document.querySelectorAll('.option');
+  labels.forEach((label, index) => {
+    label.textContent = currentQuizData.options[index];
+    label.classList.remove('correct', 'incorrect');
+  });
+
+  timeLeft = 15;
+  timer.textContent = timeLeft;
+}
+
+window.onload = loadQuestion;
+
+const countdown = () => {
+  const interval = setInterval(() => {
+    timeLeft--;
+    timer.textContent = timeLeft;
+
+    if (timeLeft === 0) {
+      clearInterval(interval);
+      const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+      if (!selectedAnswer) {
+        showAlert("Se acabó el tiempo. " + questions[currentQuestion].incorrectResponse, 'error');
+      }
+    }
+  }, 1000);
+
+  return interval;
+};
+
+let interval = countdown();
+
+quizForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  clearInterval(interval);
+
+  const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+
+  if (selectedAnswer) {
+    if (selectedAnswer.value === questions[currentQuestion].answer) {
+      selectedAnswer.nextElementSibling.classList.add('correct');
+      showAlert("¡Correcto!", 'success');
+    } else {
+      selectedAnswer.nextElementSibling.classList.add('incorrect');
+      const incorrectResponse = questions[currentQuestion].incorrectResponse;
+      showAlert(incorrectResponse, 'error');
+    }
+
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+      loadQuestion();
+      interval = countdown();
+    } else {
+      showAlert("¡Has completado todas las preguntas!", 'success');
+      // Puedes realizar otras acciones al finalizar todas las preguntas
+    }
+  } else {
+    showAlert("No has seleccionado ninguna respuesta. La respuesta correcta es: " + questions[currentQuestion].options.find(opt => opt === questions[currentQuestion].answer), 'error');
+  }
+});
+
+function showAlert(message, type) {
+  const alertContainer = document.createElement('div');
+  alertContainer.classList.add('alert-container');
+
+  const alertDiv = document.createElement('div');
+  alertDiv.textContent = message;
+  alertDiv.classList.add('alert');
+
+  if (type === 'success') {
+    alertDiv.classList.add('alert-success');
+  } else if (type === 'error') {
+    alertDiv.classList.add('alert-danger');
+  }
+
+  alertContainer.appendChild(alertDiv);
+  imageElement.parentElement.appendChild(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.style.opacity = '0';
+    setTimeout(() => {
+      alertContainer.remove();
+    }, 300);
+  }, 3000);
+}
+
+  </script>
+</body>
+</html>

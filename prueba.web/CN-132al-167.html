@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Constitucion Nacional</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "¿Cuáles son las modalidades del hábeas corpus según el artículo 133 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Preventivo y reparador.",
+                        b: "Solo genérico.",
+                        c: "Preventivo, reparador y genérico."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cuáles son las características del amparo según el artículo 134 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: " El procedimiento es breve, sumario y gratuito; no causa estado.",
+                        b: "Solo puede promoverse contra actos de órganos judiciales.",
+                        c: " Es de acción popular solo en casos electorales."
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                    question: "¿Cuál es el propósito del Habeas Data según el artículo 135 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Restringir el acceso a información personal.",
+                        b: "Garantizar el acceso a información personal y permitir su actualización o corrección.",
+                        c: "Proteger la información de entidades privadas."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuál es la posición de la Constitución en el orden de prelación del derecho positivo nacional según el artículo 137 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "La Constitución está por encima de todos los tratados, leyes y disposiciones jurídicas nacionales.",
+                        b: "La Constitución está en la misma jerarquía que los tratados internacionales.",
+                        c: "La Constitución es inferior a las leyes dictadas por el Congreso."
+                    },
+                    correctAnswer: "a"
+                },
+                
+                 {
+                    question: "Según el artículo 138 de la Constitución Nacional de la República del Paraguay, ¿qué se autoriza a los ciudadanos a hacer en caso de usurpación del poder público?",
+                    answers: {
+                        a: "Se autoriza a los ciudadanos a participar en la usurpación.",
+                        b: "Se autoriza a los ciudadanos a aceptar pasivamente la usurpación.",
+                        c: "Se autoriza a los ciudadanos a resistir a los usurpadores por todos los medios a su alcance."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cuáles son los símbolos de la República del Paraguay, según el artículo 139 de la Constitución Nacional?",
+                    answers: {
+                        a: "El himno nacional, la bandera y el escudo.",
+                        b: "El pabellón de la República, el sello nacional y el himno nacional.",
+                        c: "La bandera, el himno y el lema nacional."
+                    },
+                    correctAnswer: "b"
+                },
+                
+                 {
+                    question: "Según el artículo 140 de la Constitución Nacional, ¿cuáles son los idiomas oficiales de Paraguay?",
+                    answers: {
+                        a: "Solo el castellano.",
+                        b: "Solo el guaraní.",
+                        c: "El castellano y el guaraní."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 141 de la Constitución Nacional, ¿cómo se integran los tratados internacionales válidamente celebrados en el ordenamiento legal interno de Paraguay?",
+                    answers: {
+                        a: " Forman parte del ordenamiento legal interno con igual jerarquía que las leyes.",
+                        b: " Solo forman parte del ordenamiento legal interno si son ratificados por el Poder Judicial",
+                        c: "Forman parte del ordenamiento legal interno con jerarquía superior a las leyes."
+                    },
+                    correctAnswer: "a"
+                },
+                
+                 {
+                    question: "Según el Artículo 143, ¿cuáles son los principios a los que la República del Paraguay se ajusta en sus relaciones internacionales?",
+                    answers: {
+                        a: "La Independencia Nacional, la autodeterminación de los pueblos, la igualdad jurídica entre los Estados, la solidaridad y la cooperación internacional, la protección internacional de los derechos humanos, la libre navegación de los ríos internacionales, la no intervención, y la condena a toda forma de dictadura, colonialismo e imperialismo",
+                        b: "La subordinación, la interferencia en asuntos internos, la desigualdad jurídica entre los Estados, la exclusión de la cooperación internacional, la limitación de los derechos humanos, la restricción a la navegación de los ríos internacionales, la intervención selectiva, y la aceptación de toda forma de dictadura, colonialismo e imperialismo.",
+                        c: " La dominación extranjera, la dependencia unilateral, la supremacía de un solo Estado, el aislacionismo, la violación de los derechos humanos, la restricción de la navegación de los ríos internacionales, la intervención constante, y la promoción de toda forma de dictadura, colonialismo e imperialismo."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Cuáles son las personas consideradas de nacionalidad paraguaya natural según el artículo 146?",
+                    answers: {
+                        a: "Aquellas que hayan vivido toda su vida en el Paraguay.",
+                        b: "Las personas que hayan nacido en el extranjero pero tengan padres paraguayos.",
+                        c: "Aquellas que hayan nacido en el extranjero y tengan padres que se radiquen en Paraguay de forma permanente."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: "Según el Artículo 148 de la Constitución, ¿cuáles son los requisitos que los extranjeros deben cumplir para obtener la nacionalidad paraguaya por naturalización?",
+                    answers: {
+                        a: "Ser mayor de 25 años, residir en el país por al menos dos años, tener un título universitario y buena conducta.",
+                        b: "Tener mayoría de edad, residir en el país por al menos tres años, ejercer alguna profesión u oficio en Paraguay y tener buena conducta.",
+                        c: "Ser mayor de 18 años, vivir en el país por al menos cinco años, ser propietario de un negocio y tener recomendaciones de ciudadanos paraguayos."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuál de las siguientes situaciones puede llevar a la pérdida de la nacionalidad paraguaya para los naturalizados?",
+                    answers: {
+                        a: "Ausencia injustificada de la República por más de tres años, declarada judicialmente.",
+                        b: "Cambiar de residencia sin notificar a las autoridades.",
+                        c: ""
+                    },
+                    correctAnswer: "a"
+                },
+                
+                 {
+                    question: "¿Quiénes son considerados ciudadanos según el artículo 152?",
+                    answers: {
+                        a: "Toda persona de nacionalidad paraguaya natural, después de dos años de haberla obtenido.",
+                        b: "Toda persona de nacionalidad paraguaya natural, desde los dieciocho años de edad.",
+                        c: "oda persona de nacionalidad paraguaya por naturalización, después de dos años de haberla obtenido."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Qué establece el artículo 155 sobre el territorio nacional?",
+                    answers: {
+                        a: "El territorio nacional puede ser cedido o transferido temporalmente a potencias extranjeras.",
+                        b: "Los Estados extranjeros pueden adquirir cualquier inmueble en el territorio nacional.",
+                        c: "El territorio nacional jamás podrá ser cedido, transferido, arrendado ni enajenado de ninguna manera."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                 {
+                    question: "¿Qué establece el artículo 156 sobre la estructura política y administrativa del Estado?",
+                    answers: {
+                        a: "El territorio nacional no se divide en departamentos, municipios y distritos.",
+                        b: "Los departamentos, municipios y distritos no gozan de autonomía política, administrativa y normativa.",
+                        c: "Los departamentos, municipios y distritos gozan de autonomía política, administrativa y normativa."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Qué determina la creación, la fusión o la modificación de los departamentos, municipios y distritos según el artículo 159?",
+                    answers: {
+                        a: "La creación de departamentos y municipios se determina por votación popular.",
+                        b: "La creación, fusión o modificación de los departamentos y sus capitales, municipios y distritos se determina por la ley.",
+                        c: "La creación, fusión o modificación de los departamentos y sus capitales, municipios y distritos se determina por decreto presidencial."
+                    },
+                    correctAnswer: "b"
+                },
+                
+                 {
+                    question: "¿Cómo se elige al gobernador y la junta departamental según el artículo 161?",
+                    answers: {
+                        a: "El gobernador es designado por el presidente y la junta departamental es electa por votación popular.",
+                        b: "El gobernador es nombrado por el Senado y la junta departamental es designada por el presidente.",
+                        c: "Ambos son electos por voto directo de los ciudadanos en comicios coincidentes con las elecciones generales."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cuáles son los requisitos para ser gobernador según el artículo 162?",
+                    answers: {
+                        a: "Ser paraguayo natural, tener 30 años cumplidos y ser nativo o tener radicación en el departamento por un año como mínimo.",
+                        b: "Ser paraguayo natural, tener 25 años cumplidos y ser nativo del departamento.",
+                        c: " Ser paraguayo por naturalización, tener 35 años cumplidos y ser nativo del departamento."
+                    },
+                    correctAnswer: "a"
+                },
+                
+                 {
+                    question: "¿Cuáles son los recursos de la administración departamental según el artículo 164?",
+                    answers: {
+                        a: "Únicamente las asignaciones o subvenciones del Gobierno nacional.",
+                        b: "Solo las rentas propias determinadas por ley.",
+                        c: "La porción correspondiente de impuestos, tasas y contribuciones, las asignaciones o subvenciones del Gobierno nacional, las rentas propias y otros recursos que fije la ley."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Quiénes estarán a cargo del gobierno de los municipios según el artículo 167?",
+                    answers: {
+                        a: "Únicamente el intendente.",
+                        b: "Será responsabilidad del presidente municipal y de una junta administrativa.",
+                        c: "El gobierno municipal estará a cargo del intendente y de una junta municipal."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                
+];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

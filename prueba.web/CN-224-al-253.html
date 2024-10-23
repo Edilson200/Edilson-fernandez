@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Constitucion Nacional</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "¿Quién ejerce el Poder Ejecutivo según el artículo 226?",
+                    answers: {
+                        a: "El Presidente de la República.",
+                        b: "Senadores",
+                        c: "Diputados"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Qué función cumple el Vicepresidente de la República según el artículo 227?",
+                    answers: {
+                        a: "Representa al Poder Judicial.",
+                        b: "Sustituye al Presidente en caso de impedimento o ausencia temporal.",
+                        c: "Dirige el Congreso"
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                    question: "¿Cuáles son los requisitos para ser Presidente de la República o Vicepresidente según el artículo 228?",
+                    answers: {
+                        a: "Tener nacionalidad paraguaya natural, haber cumplido treinta y cinco años y estar en pleno ejercicio de sus derechos civiles y políticos.",
+                        b: "Tener nacionalidad paraguaya natural, haber cumplido treinta años y estar en pleno ejercicio de sus derechos civiles y políticos.",
+                        c: "Tener nacionalidad paraguaya natural, haber cumplido veinticinco años y estar en pleno ejercicio de sus derechos civiles y políticos"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Cuánto tiempo durarán en el ejercicio de sus funciones el Presidente de la República y el Vicepresidente según el artículo 229?",
+                    answers: {
+                        a: "Cuatro años improrrogables, sin posibilidad de reelección.",
+                        b: "Cinco años improrrogables, con posibilidad de reelección.",
+                        c: "Cinco años improrrogables, sin posibilidad de reelección."
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                    question: "¿Cómo se eligen el Presidente de la República y el Vicepresidente según el artículo 230?",
+                    answers: {
+                        a: "Conjunta y directamente por el pueblo, por mayoría simple de votos.",
+                        b: "Conjunta y directamente por el pueblo, por mayoría simple dos tercio de votos.",
+                        c: "Conjuntamente por el pueblo, por mayoría simple de votos."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Qué sucede en caso de que, en la fecha en la cual deban asumir sus funciones el Presidente de la República y el Vicepresidente, no hayan sido proclamados en la forma dispuesta por esta Constitución, o fueran anuladas las elecciones?",
+                    answers: {
+                        a: "Se nombra un presidente provisional.",
+                        b: "El Presidente de la Corte Suprema de Justicia asume el mando hasta que se realice la transmisión.",
+                        c: "El Congreso Nacional toma el control."
+                    },
+                    correctAnswer: "b"
+                },
+                 {
+                    question: "¿Dónde toman posesión de sus cargos el Presidente de la República y el Vicepresidente si el Congreso no alcanza el quórum necesario para reunirse?",
+                    answers: {
+                        a: "Ante la Corte Suprema de Justicia.",
+                        b: "En la residencia presidencial.",
+                        c: "En la sede del Poder Ejecutivo."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Qué autorización se requiere si el Presidente de la República o quien lo sustituye en el cargo desea ausentarse del país por más de cinco días?",
+                    answers: {
+                        a: "Autorización del Congreso.",
+                        b: "Autorización de la Cámara de Diputados.",
+                        c: "Autorización de la Cámara de Senadores."
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                    question: "Según el Artículo 234 de la Constitución Paraguaya, ¿qué sucede en caso de impedimento o ausencia del Presidente de la República?",
+                    answers: {
+                        a: "El Vicepresidente asume de inmediato.",
+                        b: "El Presidente del Senado asume de inmediato.",
+                        c: "El Presidente de la Cámara de Diputados asume de inmediato."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Pregunta: Según el Artículo 238 de la Constitución Paraguaya, ¿cuál de las siguientes afirmaciones es verdadera respecto a los deberes y atribuciones del Presidente de la República?",
+                    answers: {
+                        a: "El Presidente no tiene poder de veto sobre las leyes sancionadas por el Congreso.",
+                        b: "El Presidente puede nombrar y remover a los ministros del Poder Ejecutivo sin restricciones.",
+                        c: " El Presidente puede dictar decretos sin necesidad del refrendo del Ministro del ramo."
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                    question: "Pregunta: Según el Artículo 239 de la Constitución Paraguaya, ¿cuáles son los deberes y atribuciones del Vicepresidente de la República?",
+                    answers: {
+                        a: "El Vicepresidente tiene la atribución de coordinar las relaciones entre el Poder Ejecutivo y el Legislativo.",
+                        b: "El Vicepresidente no tiene la responsabilidad de sustituir al Presidente en casos previstos por la Constitución.",
+                        c: "El Vicepresidente no puede representar al Presidente de la República nacional e internacionalmente."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Pregunta: Según el Artículo 244 de la Constitución Paraguaya, ¿quién está a cargo de la Procuraduría General de la República?",
+                    answers: {
+                        a: "El Presidente de la República.",
+                        b: "Los ministros del Poder Ejecutivo.",
+                        c: "El Procurador General."
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                    question: "¿Quién nombra y remueve al Procurador General de la República según el Artículo 245 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "El Congreso.",
+                        b: "La Corte Suprema de Justicia.",
+                        c: "El Presidente de la República."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cuál es uno de los deberes del Procurador General de la República según el Artículo 246 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Representar y defender los intereses patrimoniales de la República.",
+                        b: "Dictaminar sobre asuntos fiscales.",
+                        c: "Coordinar las relaciones internacionales."
+                    },
+                    correctAnswer: "a"
+                },
+                 {
+                    question: "Según el Artículo 247 de la Constitución Paraguaya, ¿quién es el custodio de la Constitución y está encargado de interpretarla, cumplirla y hacerla cumplir?",
+                    answers: {
+                        a: "El Poder Legislativo.",
+                        b: "El Poder Judicial.",
+                        c: "La Cámara de Senadores."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 248 de la Constitución Paraguaya, ¿qué garantiza la independencia del Poder Judicial?",
+                    answers: {
+                        a: "La intervención del Poder Ejecutivo.",
+                        b: "La intervención del Poder Legislativo.",
+                        c: "La autonomía del Poder Judicial."
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                    question: "Según el Artículo 250 de la Constitución Paraguaya, ¿dónde prestan juramento o promesa los Ministros de la Corte Suprema de Justicia al asumir sus cargos?",
+                    answers: {
+                        a: "Ante el Presidente de la República.",
+                        b: "Ante el Congreso.",
+                        c: "Ante la Corte Suprema de Justicia."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el Artículo 251 de la Constitución Paraguaya, ¿quién propone en terna a los miembros de los tribunales y juzgados de toda la República?",
+                    answers: {
+                        a: "El Presidente de la República.",
+                        b: "El Congreso.",
+                        c: "El Consejo de la Magistratura."
+                    },
+                    correctAnswer: "c"
+                },
+                 {
+                    question: "Según el Artículo 252 de la Constitución Paraguaya, ¿cuánto dura el período para el cual son nombrados los magistrados?",
+                    answers: {
+                        a: "Tres años.",
+                        b: "Cuatro años.",
+                        c: "Cinco años."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el Artículo 253 de la Constitución Paraguaya, ¿bajo qué circunstancias pueden ser enjuiciados y removidos los magistrados judiciales?",
+                    answers: {
+                        a: "Por la comisión de delitos o mal desempeño de sus funciones.",
+                        b: "Por decisión unilateral del Poder Ejecutivo.",
+                        c: "Por decisiones mayoritarias de los demás poderes."
+                    },
+                    correctAnswer: "a"
+                },
+                
+                
+];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

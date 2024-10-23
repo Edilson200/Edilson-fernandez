@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Constitucion Nacional</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "¿Qué tipo de democracia se establece en la Constitución de Paraguay?",
+                    answers: {
+                        a: "Democracia representativa, participativa y pluralista",
+                        b: "Democracia monárquica",
+                        c: "Democracia representativa, participativa"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Quién posee la soberanía en la República del Paraguay según el artículo 2 de la Constitución Nacional?",
+                    answers: {
+                        a: " El presidente",
+                        b: "El pueblo, que la ejerce conforme a lo dispuesto en la Constitución",
+                        c: "El Congreso"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cómo se ejerce el Poder Público en la República del Paraguay según el artículo 3 de la Constitución Nacional?",
+                    answers: {
+                        a: "Por medio del gobierno central",
+                        b: "Mediante el sufragio, ejercido por el pueblo",
+                        c: "Poder ejecutivo, legislativo"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Qué se garantiza según el artículo 4 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "La protección de la vida integridad física y psíquica, así como del honor y reputación de las personas",
+                        b: "La libertad de culto",
+                        c: "La vida"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Qué prohíbe específicamente el artículo 5 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "La detención ilegal",
+                        b: "La pena de muerte",
+                        c: "Las penas crueles, inhumanas o degradantes, incluyendo la tortura"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Qué busca promover el Estado según el artículo 6 de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "La educación pública gratuita",
+                        b: "El desarrollo tecnológico",
+                        c: "La calidad de vida, reconociendo factores como la pobreza extrema, discapacidad o edad"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Cuáles son los objetivos prioritarios de interés social, según el artículo 7 Del derecho a un ambiente saludable de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Desarrollo económico y crecimiento industrial",
+                        b: "Preservación, conservación, recomposición y mejoramiento del ambiente",
+                        c: "Expansión urbana y desarrollo tecnológico"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el artículo 8 De la protección ambiental, ¿qué prohíbe específicamente la Constitución Nacional de la República del Paraguay en relación a las actividades y elementos peligrosos?",
+                    answers: {
+                        a: "La importación de productos químicos",
+                        b: " La fabricación y uso de armas nucleares, químicas y biológicas, así como la introducción de residuos tóxicos al país",
+                        c: "La explotación de recursos naturales sin regulación"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: " Según el artículo 9 De la libertad y de la seguridad de las personas, ¿qué derecho tiene toda persona que garantiza la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Derecho a la propiedad privada",
+                        b: "Derecho a la libre expresión",
+                        c: "Derecho a ser protegido en su libertad y seguridad"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 10 De la proscripción de la esclavitud y de otras servidumbres, ¿qué prácticas están prohibidas en la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "La trata de personas y las cargas sociales",
+                        b: "La esclavitud y las deudas económicas",
+                        c: "La esclavitud, las servidumbres personales y la trata de personas"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 11 De la privación de la libertad, ¿en qué condiciones puede ser privada una persona de su libertad física o procesada de acuerdo con la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Sin mediación de causas, de acuerdo a la voluntad del gobierno",
+                        b: "En cualquier situación que considere la autoridad competente",
+                        c: "Mediando las causas y en las condiciones fijadas por la Constitución y las leyes"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 12 De la detención y del arresto, ¿bajo qué condiciones puede ser detenida una persona de acuerdo con la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Sin necesidad de orden escrita de autoridad competente",
+                        b: "Con orden escrita de autoridad competente, salvo en caso de ser sorprendida en flagrante comisión de delito que merezca pena corporal",
+                        c: "Únicamente si es sorprendida en flagrante comisión de delito grave"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el artículo 13 De la no privación de libertad por deudas, ¿en qué situaciones se permite la privación de la libertad por deuda según la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "En cualquier situación de deuda",
+                        b: " En caso de deuda con instituciones financieras",
+                        c: "Únicamente por incumplimiento de deberes alimentarios, como sustitución de multas o fianzas judiciales"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 14 De la irretroactividad de la ley, ¿bajo qué circunstancias una ley puede tener efecto retroactivo de acuerdo con la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Únicamente si la ley es más favorable al encausado o al condenado",
+                        b: "En cualquier situación",
+                        c: "Solo si lo decide el Poder Ejecutivo"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Avanzada: Según el artículo 15 De la prohibición de hacer justicia por sí mismo de la Constitución Nacional de la República del Paraguay, ¿cuál es la restricción explícita en cuanto a reclamar derechos y hacer justicia de manera individual?",
+                    answers: {
+                        a: "Se prohíbe hacer justicia por sí mismo o reclamar derechos con violencia, excepto en casos de legítima defensa",
+                        b: "No se permite la búsqueda de justicia de manera individual bajo ninguna circunstancia",
+                        c: "Solo se prohíbe hacer justicia por sí mismo en casos de delitos menores"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 16 De la defensa en juicio de la Constitución Nacional de la República del Paraguay, ¿cuál es el principio fundamental relacionado con la defensa en juicio?",
+                    answers: {
+                        a: "La defensa en juicio solo es inviolable para casos civiles",
+                        b: "La defensa en juicio es inviolable, pero solo para ciertos delitos",
+                        c: "Toda persona tiene derecho a ser juzgada por tribunales y jueces competentes, independientes e imparciales"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 17 De los derechos procesales de la Constitución Nacional de la República del Paraguay, ¿cuáles son los derechos que toda persona tiene en el proceso penal o en cualquier otro del cual pudiera derivarse pena o sanción?",
+                    answers: {
+                        a: "Únicamente el derecho a ser presumida inocente y el derecho a la defensa por sí misma o asistida por defensores de su elección",
+                        b: "El derecho a que se le juzgue en juicio público y el derecho a la comunicación previa y detallada de la imputación",
+                        c: "Todos los derechos mencionados, incluyendo la indemnización por el Estado en caso de condena por error judicial"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 18 De las restricciones de la declaración de la Constitución Nacional de la República del Paraguay, ¿cuáles son las restricciones en cuanto a la declaración de una persona en un proceso penal?",
+                    answers: {
+                        a: "Nadie puede ser obligado a declarar contra sí mismo, su cónyuge, persona con quien está unido de hecho, ni contra sus parientes dentro del cuarto grado de consanguinidad o segundo de afinidad",
+                        b: "No hay restricciones para declarar en contra de uno mismo, pero sí contra el cónyuge o personas con quienes está unido de hecho",
+                        c: "Solo se prohíbe declarar contra el cónyuge, pero no contra otras personas cercanas"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 19 De la prisión preventiva de la Constitución Nacional de la República del Paraguay, ¿bajo qué condiciones puede ser dictada la prisión preventiva y cuál es la limitación de tiempo para su prolongación?",
+                    answers: {
+                        a: "La prisión preventiva puede ser dictada en cualquier momento del proceso y no tiene límite de tiempo",
+                        b: "La prisión preventiva solo puede ser dictada si la pena mínima establecida para el delito es prolongada",
+                        c: "La prisión preventiva solo puede ser dictada cuando es indispensable en las diligencias del juicio, y en ningún caso se prolongará por un tiempo mayor al de la pena mínima establecida para igual delito"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 21 De la reclusión de las personas de la Constitución Nacional de la República del Paraguay, ¿cuáles son los principios fundamentales en relación a la reclusión de personas privadas de su libertad?",
+                    answers: {
+                        a: "Las personas privadas de su libertad serán recluidas en establecimientos adecuados, evitando la promiscuidad de sexos y sin mezclar a menores con personas mayores de edad",
+                        b: "Las personas privadas de su libertad pueden ser recluidas en cualquier establecimiento sin restricciones de género o edad",
+                        c: "La reclusión de personas detenidas se hará en los mismos lugares destinados para los que purguen condena"
+                    },
+                    correctAnswer: "a"
+                },
+                
+               
+            ];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

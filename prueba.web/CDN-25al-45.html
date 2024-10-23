@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de seleccion multiple de Codigo de la niñez y adolescenccia Paraguay. </h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "Según el Artículo 26 del Código, ¿cuál es el derecho del niño y del adolescente en relación con la presentación de peticiones?",
+                    answers: {
+                        a: "Solo el derecho a dirigir peticiones por sí mismos.",
+                        b: "Derecho a presentar y dirigir peticiones por sí mismos, ante cualquier entidad o funcionario público, sobre los asuntos de la competencia de éstos y a obtener respuesta oportuna.",
+                        c: "Derecho exclusivo a presentar peticiones ante funcionarios públicos."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "De acuerdo con el Artículo 27, ¿cuál es la característica principal de los casos en que las autoridades y funcionarios intervienen y conocen?",
+                    answers: {
+                        a: "Siempre son públicos.",
+                        b: "Solo son confidenciales si se trata de asuntos judiciales.",
+                        c: "Siempre son confidenciales y reservados."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "De acuerdo con el Artículo 28, que aborda las Excepciones del Secreto, ¿quién o quiénes tienen acceso a las actuaciones y expedientes relativos al niño o adolescente?",
+                    answers: {
+                        a: "El niño o adolescente, sus padres, tutores, representantes legales, los defensores, instituciones debidamente acreditadas con fines científicos y quienes demuestren tener interés legítimo.",
+                        b: "Solo los padres y tutores.",
+                        c: "Únicamente los defensores y representantes legales."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "En virtud del Artículo 29, que trata de la Prohibición de la Publicación, ¿qué aspectos relacionados con el niño o adolescente, ya sea víctima o supuesto autor de hechos punibles, están expresamente prohibidos de ser publicados?",
+                    answers: {
+                        a: "Nombres y fotografías.",
+                        b: "Nombres, fotografías y datos que posibiliten la identificación.",
+                        c: "Solo los datos que posibiliten la identificación."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 30, que trata de los Deberes del Niño o Adolescente, ¿cuáles son algunos de los deberes que tienen los niños y adolescentes?",
+                    answers: {
+                        a: "Respetar las leyes y el medio ambiente natural.",
+                        b: "Solo obedecer a su padre, madre, tutor o responsable.",
+                        c: "Respetar las leyes, el medio ambiente natural y obedecer a su padre, madre, tutor o responsable."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "En el marco del Artículo 31, que aborda la Prohibición de Utilizar al Niño o Adolescente en el Comercio Sexual, ¿qué actividades específicas están expresamente prohibidas en relación con los niños y adolescentes?",
+                    answers: {
+                        a: "Utilización en actividades de comercio sexual y en la elaboración, producción o distribución de publicaciones pornográficas.",
+                        b: "Solo la elaboración, producción o distribución de publicaciones pornográficas.",
+                        c: "Participación en espectáculos pornográficos."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "En virtud del Artículo 32, que trata de los Artículos de Venta Prohibida, ¿cuáles son algunos de los productos expresamente prohibidos para la venta o suministro al niño o adolescente?",
+                    answers: {
+                        a: "Solo revistas y materiales pornográficos.",
+                        b: "ideo juegos clasificados como nocivos para su desarrollo integral.",
+                        c: "Bebidas alcohólicas, tabaco y productos causantes de dependencia física o psíquica."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el Artículo 33, que aborda las Restricciones para las Casas de Juego y Locales Habilitados para Niños o Adolescentes, ¿cuáles son algunas de las restricciones establecidas?",
+                    answers: {
+                        a: "Solo la exhibición de videos que inciten a cometer actos punibles en locales habilitados para niños o adolescentes.",
+                        b: "El ingreso de niños o adolescentes a casas de juego y la exhibición de videos que inciten a cometer actos punibles en locales habilitados para ellos.",
+                        c: "Ninguna restricción específica, solo el control de la Consejería Municipal por los Derechos del Niño, Niña y Adolescente (CODENI)."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 34, que trata de las Medidas de Protección y Apoyo, ¿cuáles son las acciones que puede llevar a cabo la Consejería Municipal por los Derechos del Niño, Niña y Adolescente (CODENI) sin requerir autorización judicial?",
+                    answers: {
+                        a: "Solo las medidas relacionadas con advertencia, orientación, acompañamiento temporario y tratamiento médico y psicológico.",
+                        b: "Medidas de abrigo y provisión material en casos de emergencia.",
+                        c: "La ubicación del niño o adolescente en una familia sustituta y en un hogar."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "De acuerdo con el Artículo 35, que trata del Abrigo, ¿en qué circunstancias se ordena la medida de abrigo para un niño o adolescente?",
+                    answers: {
+                        a: "La medida de abrigo se ordena como medida permanente en casos de desamparo.",
+                        b: "La medida de abrigo se ordena cuando se requiere la ubicación del niño o adolescente en una entidad destinada a su protección y cuidado de manera excepcional y provisoria.",
+                        c: "La medida de abrigo se ordena únicamente cuando hay autorización judicial."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 36, que trata de las Instituciones de Protección y Promoción, ¿dónde deben inscribirse las entidades idóneas encargadas de cumplir las medidas señaladas en el Artículo 34, incisos g) al i)?",
+                    answers: {
+                        a: "En la Secretaría Nacional de la Niñez y, en caso de relaciones con la adopción, también en el Centro de Adopciones.",
+                        b: "En la Consejería Municipal por los Derechos del Niño, Niña y Adolescente (CODENI).",
+                        c: "En el Ministerio de Salud."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el Artículo 37°, ¿qué entidad se crea con el objetivo de garantizar la plena vigencia de los derechos del niño y del adolescente?",
+                    answers: {
+                        a: "La Consejería Municipal por los Derechos del Niño, Niña y Adolescente (CODENI).",
+                        b: "La Secretaría Nacional de la Niñez.",
+                        c: "El Sistema Nacional de Protección y Promoción Integral a la Niñez y Adolescencia."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "De acuerdo con el Artículo 38, ¿cómo será financiado el Sistema Nacional de Protección y Promoción Integral a la Niñez y Adolescencia?",
+                    answers: {
+                        a: "Con recursos provenientes de multas por violaciones a los derechos del niño y del adolescente.",
+                        b: "Con recursos previstos en el Presupuesto General de la Nación y en los respectivos Presupuestos Departamentales y Municipales.",
+                        c: "Por medio de impuestos especiales destinados a la protección de la niñez y adolescencia."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 39, ¿qué entidad se crea con rango ministerial y dependiente del Poder Ejecutivo, encargada de la protección y promoción de los derechos del niño y del adolescente?",
+                    answers: {
+                        a: "La Consejería Municipal por los Derechos del Niño, Niña y Adolescente (CODENI).",
+                        b: "El Centro de Adopciones.",
+                        c: "La Secretaría Nacional de la Niñez y la Adolescencia."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el Artículo 40, ¿cuáles son algunas de las funciones y atribuciones del Secretario Ejecutivo de la Secretaría Nacional de la Niñez y la Adolescencia?",
+                    answers: {
+                        a: "Elaborar el anteproyecto de presupuesto anual de la Secretaría y dictar resoluciones necesarias para la consecución de los fines de la Secretaría.",
+                        b: "Contratar préstamos con entidades nacionales o extranjeras sin necesidad de autorización.",
+                        c: "Administrar los bienes y recursos únicamente provenientes de los convenios que celebre la Secretaría."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "De acuerdo con el Artículo 41, ¿cuáles son algunas de las funciones de la Secretaría Nacional de la Niñez y la Adolescencia?",
+                    answers: {
+                        a: "Elaborar los planes y programas del Sistema.",
+                        b: "Registrar y fiscalizar únicamente el funcionamiento de las entidades de abrigo.",
+                        c: "Impulsar la conformación de los consejos departamentales y municipales de la niñez y la adolescencia."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el Artículo 42, ¿quién convoca y cómo está integrado el Consejo Nacional de la Niñez y Adolescencia?",
+                    answers: {
+                        a: "El Presidente de la República, y está integrado por representantes de organismos internacionales y entidades privadas.",
+                        b: "El Secretario Ejecutivo, y está integrado por representantes de la Secretaría Nacional de la Niñez y Adolescencia, Ministerio de Salud Pública y Bienestar Social, Ministerio de Educación y Cultura, entre otros.",
+                        c: "La Consejería Municipal por los Derechos del Niño, Niña y Adolescente (CODENI), y está integrado por representantes de organizaciones de la sociedad civil."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 43, ¿cuáles son algunas de las funciones del Consejo Nacional de la Niñez y Adolescencia?",
+                    answers: {
+                        a: "Contratar personal para la Secretaría Nacional de la Niñez y Adolescencia.",
+                        b: "Formular políticas para la promoción, atención y protección de los derechos del Niño y Adolescente.",
+                        c: "Elaborar planes y programas específicos sin necesidad de aprobación del Consejo Nacional."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 44, ¿cómo está integrado el Consejo Departamental de la Niñez y Adolescencia y quiénes son algunos de sus representantes?",
+                    answers: {
+                        a: "Está integrado por el Gobernador, la junta departamental, Secretarios Departamentales de Salud y Educación, entre otros.",
+                        b: "Está integrado únicamente por representantes de organizaciones no gubernamentales de bien público.",
+                        c: "Está integrado por el Presidente de la República, los ministros de todas las carteras y los representantes de las embajadas extranjeras en el departamento."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "De acuerdo con el Artículo 45, ¿cuáles son algunas de las funciones del Consejo Departamental de la Niñez y Adolescencia?",
+                    answers: {
+                        a: "Aprobar los planes y programas para el departamento y apoyar la ejecución de los mismos.",
+                        b: "Intervenir en la selección de personal para la Secretaría Nacional de la Niñez y Adolescencia.",
+                        c: "Administrar los recursos económicos del departamento."
+                    },
+                    correctAnswer: "a"
+                },
+                 
+];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

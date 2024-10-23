@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+        body {
+   background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Constitucion Nacional</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "Según el Artículo 254 de la Constitución Paraguaya, ¿qué actividad no pueden ejercer los magistrados mientras duren en sus funciones?",
+                    answers: {
+                        a: "Docencia y investigación científica.",
+                        b: "Comercio y política.",
+                        c: "Industria y actividades profesionales."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el Artículo 255 de la Constitución Paraguaya, ¿por qué motivo no puede ser detenido o arrestado un magistrado judicial?",
+                    answers: {
+                        a: "Por sus opiniones emitidas en el ejercicio de sus funciones.",
+                        b: "Por mal desempeño de sus funciones.",
+                        c: "Por decisión de un Jurado de Enjuiciamiento de Magistrados."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Cómo deben ser los juicios según el Artículo 256 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Secretos y escritos.",
+                        b: "Orales y públicos.",
+                        c: "Privados y escritos."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Qué obligación tienen los órganos del Estado y las personas que ejercen funciones al servicio del mismo según el Artículo 257 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Subordinarse a intereses privados.",
+                        b: "Ignorar los dictados de la Ley.",
+                        c: "Prestar a la administración de justicia toda la cooperación que requiera."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cuáles son los requisitos para integrar la Corte Suprema de Justicia según el Artículo 258 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Tener nacionalidad paraguaya, tener más de treinta años y haber ejercido la profesión jurídica por al menos cinco años.",
+                        b: "Tener nacionalidad paraguaya, haber cumplido treinta y cinco años, poseer título universitario de Doctor en Derecho, y haber ejercido efectivamente durante al menos diez años la profesión, la magistratura judicial o la cátedra universitaria en materia jurídica.",
+                        c: "Ser mayor de edad y haber cursado estudios secundarios."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuáles son algunos de los deberes y atribuciones de la Corte Suprema de Justicia según el Artículo 259 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Ejercer funciones ejecutivas, promulgar leyes y designar magistrados judiciales.",
+                        b: "Dictar su propio reglamento interno, conocer y resolver en los recursos ordinarios, y supervisar los institutos de detención y reclusión.",
+                        c: "Ejercer funciones legislativas, intervenir en asuntos internacionales, y controlar las fuerzas armadas."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuáles son los deberes y atribuciones de la Sala Constitucional según el Artículo 260 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Dictar leyes y reglamentos internos, y supervisar el cumplimiento de las sentencias definitivas.",
+                        b: "Conocer y resolver sobre la inconstitucionalidad de las leyes y otros instrumentos normativos, y decidir sobre la inconstitucionalidad de las sentencias definitivas o interlocutorias.",
+                        c: "Administrar justicia en casos de competencia entre el Poder Ejecutivo y los gobiernos departamentales."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cómo pueden ser removidos los Ministros de la Corte Suprema de Justicia según el Artículo 261 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Por renuncia voluntaria.",
+                        b: "Por decisión del Poder Ejecutivo.",
+                        c: "Por juicio político."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Quién representa a la sociedad ante los órganos jurisdiccionales del Estado según el Artículo 266 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "El Presidente de la República.",
+                        b: "El Ministerio Público.",
+                        c: "El Poder Judicial."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuáles son los requisitos para ser Fiscal General del Estado según el Artículo 267 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Tener nacionalidad paraguaya, haber cumplido treinta y cinco años y poseer título universitario de abogado.",
+                        b: "Tener nacionalidad paraguaya, haber cumplido veinticinco años y poseer título universitario de abogado.",
+                        c: "No hay requisitos específicos para el cargo de Fiscal General del Estado."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Cuáles son los deberes y atribuciones del Ministerio Público según el Artículo 268 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "Velar por el respeto de los derechos y garantías constitucionales, ejercer exclusivamente la acción penal en casos que requieran instancia de parte, y dirigir las fuerzas armadas.",
+                        b: "Definir políticas económicas, velar por el respeto de los derechos laborales, y ejercer exclusivamente la acción penal en casos que requieran instancia de parte.",
+                        c: "Promover la acción penal pública para defender el patrimonio público y social, ejercer la acción penal en casos que no requieran instancia de parte, recabar información de los funcionarios públicos, y supervisar las elecciones."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cómo se elige y cuánto dura en sus funciones el Fiscal General del Estado según el Artículo 269 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "El Fiscal General es elegido por voto popular y dura en sus funciones durante cinco años, sin posibilidad de reelección.",
+                        b: "El Fiscal General es nombrado por el Poder Judicial, con acuerdo de la Cámara de Diputados, y dura en sus funciones durante diez años, sin posibilidad de reelec",
+                        c: "El Fiscal General es nombrado por el Poder Ejecutivo, con acuerdo del Senado, a propuesta de una terna del Consejo de la Magistratura, y dura cinco años en sus funciones, con posibilidad de reelección."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Cuál es la función principal del Defensor del Pueblo según el Artículo 276 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "La función principal del Defensor del Pueblo es ejercer funciones judiciales y competencia ejecutiva.",
+                        b: "El Defensor del Pueblo tiene como función principal la defensa de los derechos humanos, la canalización de reclamos populares y la protección de los intereses comunitarios.",
+                        c: "La función principal del Defensor del Pueblo es intervenir en casos judiciales y ejecutivos."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuáles son los requisitos para ser Defensor del Pueblo según el Artículo 278 de la Constitución Paraguaya?",
+                    answers: {
+                        a: "No se mencionan requisitos específicos.",
+                        b: "Debe reunir los mismos requisitos exigidos para los Diputados.",
+                        c: "Debe ser ciudadano paraguayo natural y tener las mismas inmunidades que los magistrados judiciales."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cómo se establece el procedimiento de remoción para el Contralor y Subcontralor según el Artículo 284 de la Constitución Paraguaya?",
+                    answers: {
+                        a: " Se remueven por decisión exclusiva del Presidente de la República.",
+                        b: "El procedimiento de remoción no está establecido.",
+                        c: "Se sigue el procedimiento de juicio político."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Qué procedimiento se debe seguir para la reforma de la Constitución Paraguaya según el Artículo 289?",
+                    answers: {
+                        a: "La declaración de la necesidad de la reforma debe ser aprobada por mayoría absoluta de dos tercios en cada Cámara del Congreso.",
+                        b: "La reforma puede solicitarse en cualquier momento.",
+                        c: "La necesidad de la reforma se aprueba por mayoría simple del Congreso."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Cómo se realiza una enmienda a la Constitución Paraguaya según el Artículo 290?",
+                    answers: {
+                        a: "Solo puede ser iniciada por el Presidente de la República.",
+                        b: "Se requiere mayoría absoluta en ambas Cámaras del Congreso y luego un referéndum.",
+                        c: "La enmienda debe ser aprobada por dos tercios en cada Cámara del Congreso y luego un referéndum."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "¿Cuál es la limitación de la Convención Nacional Constituyente según el Artículo 291?",
+                    answers: {
+                        a: "Puede asumir las atribuciones de los poderes del Estado.",
+                        b: " Puede sustituir a los funcionarios en ejercicio de los poderes del Estado.",
+                        c: "Se limitará a sus labores de reforma o enmienda, excluyendo cualquier otra tarea."
+                    },
+                    correctAnswer: "c"
+                },
+                
+ ];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

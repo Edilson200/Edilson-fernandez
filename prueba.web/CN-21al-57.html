@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen de selección múltiple</title>
+    <style>
+         body {
+    background-image: url(fondo.jpg);
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: black;
+}
+
+#quiz {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.question {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.question h3 {
+    margin-top: 0;
+    color: #333333;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 10px;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#submit {
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#result {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+    color: black;
+}
+
+#result p {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+@media (max-width: 500px) {
+    body {
+        padding: 10px;
+    }
+
+    #quiz {
+        max-width: 100%;
+    }
+
+    .options label {
+        width: 100%;
+    }
+
+    #submit {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <h1>Examen de selección múltiple de Constitucion Nacional</h1>
+    <div id="quiz"></div>
+    <button id="submit">Ver puntuacion</button>
+    <div id="result"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quizContainer = document.getElementById("quiz");
+            const resultContainer = document.getElementById("result");
+            const submitButton = document.getElementById("submit");
+
+            // Agrega preguntas y respuestas
+            const questions = [
+                {
+                    question: "Según el artículo 24 De la libertad religiosa y la ideológica de la Constitución Nacional de la República del Paraguay, ¿cuáles son los principios fundamentales en relación a la libertad religiosa, de culto y la ideológica? ",
+                    answers: {
+                        a: "La libertad religiosa está limitada a ciertas confesiones oficiales y solo se garantiza la autonomía de la Iglesia Católica",
+                        b: "La libertad religiosa, de culto y la ideológica son reconocidas sin más limitaciones que las establecidas en la Constitución y la ley, y ninguna confesión tendrá carácter oficial",
+                        c: " La libertad religiosa es garantizada únicamente para ciertas confesiones y no se garantiza la autonomía de las iglesias y confesiones religiosas"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el artículo 25 De la expresión de la personalidad de la Constitución Nacional de la República del Paraguay, ¿cuáles son los derechos fundamentales relacionados con la expresión de la personalidad?",
+                    answers: {
+                        a: "Se garantiza el derecho a la libre expresión de la personalidad, a la creatividad y a la formación de la propia identidad, pero no se garantiza el pluralismo ideológico",
+                        b: "Solo se garantiza el pluralismo ideológico",
+                        c: " Se garantiza el derecho a la libre expresión de la personalidad, a la creatividad, a la formación de la propia identidad y el pluralismo ideológico"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según los artículos 28 y 29 de la Constitución Nacional de la República del Paraguay, ¿cuáles son los derechos relacionados con la información y el ejercicio de profesiones y oficios?",
+                    answers: {
+                        a: "Las fuentes públicas de información son libres para todos, pero la ley regula las modalidades y plazos para garantizar el derecho a recibir información veraz y responsable.",
+                        b: "Se reconoce el derecho de las personas a recibir información veraz y las fuentes públicas de información son libres. No hay regulación específica para garantizar este derecho.",
+                        c: "Se garantiza la libertad de ejercicio de profesiones y oficios, sin restricciones, y las fuentes públicas de información están reguladas para asegurar su veracidad y responsabilidad."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 32 De la libertad de reunión y de manifestación de la Constitución Nacional de la República del Paraguay, ¿cuáles son los derechos fundamentales relacionados con la libertad de reunión y manifestación?",
+                    answers: {
+                        a: "Las personas tienen derecho a reunirse y manifestarse pacíficamente, sin armas y con fines lícitos, sin necesidad de permiso, pero la ley regula su ejercicio sin considerar lugares, horarios o derechos de terceros",
+                        b: "Las personas no tienen derecho a manifestarse pacíficamente sin permiso previo",
+                        c: "Las personas tienen derecho a reunirse y manifestarse pacíficamente, sin armas y con fines lícitos, sin necesidad de permiso, pero la ley regula su ejercicio en lugares de tránsito público y en horarios determinados, preservando derechos de terceros y el orden público establecido en la ley"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 33 Del derecho a la intimidad de la Constitución Nacional de la República del Paraguay, ¿cuáles son los principios fundamentales relacionados con el derecho a la intimidad?",
+                    answers: {
+                        a: "La intimidad personal y familiar, así como el respeto a la vida privada, son inviolables, y la conducta de las personas está exenta de la autoridad pública, siempre que no afecte al orden público establecido en la ley o a los derechos de terceros",
+                        b: "La intimidad personal y familiar, así como el respeto a la vida privada, son inviolables solo si no afectan al orden público establecido en la ley",
+                        c: "La conducta de las personas siempre está sujeta a la autoridad pública, incluso si no afecta al orden público o a los derechos de terceros"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 34 Del derecho a la inviolabilidad de los recintos privados de la Constitución Nacional de la República del Paraguay, ¿cuáles son las condiciones y excepciones relacionadas con el derecho a la inviolabilidad de los recintos privados?",
+                    answers: {
+                        a: "Todo recinto privado es inviolable y solo puede ser allanado por orden judicial y con sujeción a la ley, sin excepciones",
+                        b: " Los recintos privados pueden ser allanados o clausurados por la autoridad pública sin necesidad de orden judicial, en casos de flagrante delito o para evitar daños a la persona o a la propiedad",
+                        c: "Todo recinto privado es inviolable, pero puede ser allanado o clausurado excepcionalmente por orden judicial y con sujeción a la ley, o en casos de flagrante delito o para evitar daños a la persona o a la propiedad"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 35 De los documentos identificatorios de la Constitución Nacional de la República del Paraguay, ¿cuál es el principio fundamental relacionado con los documentos identificatorios de las personas?",
+                    answers: {
+                        a: "Los documentos identificatorios pueden ser incautados o retenidos por las autoridades en cualquier situación",
+                        b: "Los documentos identificatorios pueden ser privados a las personas por las autoridades en casos de incumplimiento de la ley",
+                        c: "Los documentos identificatorios, licencias o constancias de las personas no podrán ser incautados ni retenidos por las autoridades, salvo los casos previstos en la ley"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 40 Del derecho a peticionar a las autoridades de la Constitución Nacional de la República del Paraguay, ¿cuál es el derecho fundamental relacionado con la petición a las autoridades?",
+                    answers: {
+                        a: " Toda persona, individual o colectivamente y sin requisitos especiales, tiene derecho a peticionar a las autoridades, por escrito, y estas deben responder dentro del plazo y según las modalidades que la ley determine",
+                        b: "Toda persona, individual o colectivamente y sin requisitos especiales, tiene derecho a peticionar a las autoridades, pero no es necesario hacerlo por escrito",
+                        c: "Solo se reputará denegada una petición si la autoridad no responde en el plazo establecido y no hay otras circunstancias previstas por la ley"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 41 Del derecho al tránsito y a la residencia de la Constitución Nacional de la República del Paraguay, ¿cuáles son los derechos fundamentales relacionados con el tránsito y la residencia de los paraguayos y habitantes?",
+                    answers: {
+                        a: "Todo paraguayo tiene derecho a residir en su Patria y los habitantes pueden transitar libremente por el territorio nacional, cambiar de domicilio o de residencia, ausentarse de la República o volver a ella y, de acuerdo con la ley, incorporar sus bienes al país o sacarlos de él",
+                        b: "Solo los paraguayos tienen derecho a residir en su Patria y los habitantes no pueden cambiar de domicilio o de residencia",
+                        c: "Los extranjeros con radicación definitiva en el país pueden ser obligados a abandonarlo sin necesidad de sentencia judicial"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 46 De la igualdad de las personas de la Constitución Nacional de la República del Paraguay, ¿cuál es el principio fundamental relacionado con la igualdad de los habitantes?",
+                    answers: {
+                        a: " Todos los habitantes de la República son iguales en dignidad y derechos, y el Estado no tiene la responsabilidad de remover obstáculos o impedir factores que mantengan discriminaciones",
+                        b: "Los habitantes de la República son iguales en dignidad y derechos, y el Estado tiene la responsabilidad de remover obstáculos e impedir factores que mantengan o propicien discriminaciones",
+                        c: "Las protecciones establecidas sobre desigualdades injustas son consideradas factores discriminatorios según la Constitución"
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el artículo 47 De las garantías de la igualdad de la Constitución Nacional de la República del Paraguay, ¿cuáles son las garantías fundamentales de igualdad que el Estado debe proporcionar a todos los habitantes?",
+                    answers: {
+                        a: "Solo se garantiza la igualdad ante las leyes y la igualdad para el acceso a la justicia",
+                        b: "Solo se garantiza la igualdad de oportunidades en la participación de los beneficios de la naturaleza",
+                        c: "El Estado garantizará a todos los habitantes la igualdad para el acceso a la justicia, ante las leyes, para el acceso a funciones públicas no electivas basado en la idoneidad, y la igualdad de oportunidades en la participación de los beneficios de la naturaleza, de los bienes materiales y de la cultura"
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 48 De la igualdad de derechos del hombre y de la mujer de la Constitución Nacional de la República del Paraguay, ¿qué derechos se reconocen a hombres y mujeres, y cuál es la responsabilidad del Estado respecto a la igualdad de género?",
+                    answers: {
+                        a: " El hombre y la mujer tienen iguales derechos civiles, políticos, sociales, económicos y culturales, y el Estado debe promover condiciones y crear mecanismos para que la igualdad sea real y efectiva, allanando obstáculos y facilitando la participación de la mujer",
+                        b: "Solo se reconocen iguales derechos civiles y políticos a hombres y mujeres, y el Estado no tiene responsabilidad específica en promover la igualdad de género.",
+                        c: "El hombre y la mujer tienen iguales derechos civiles, políticos, sociales, económicos y culturales, y el Estado no tiene la responsabilidad de allanar obstáculos que impidan su ejercicio."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 49 De la protección a la familia de la Constitución Nacional de la República del Paraguay, ¿cuál es el fundamento de la sociedad y qué elementos específicos incluye la familia?",
+                    answers: {
+                        a: "La sociedad se fundamenta en la familia, y esta incluye a la unión estable del hombre y de la mujer, a los hijos y a la comunidad que se constituya con cualquiera de los progenitores y sus descendientes.",
+                        b: "La sociedad se fundamenta en la familia, y esta incluye solo a los hijos y la comunidad con cualquiera de los progenitores.",
+                        c: "La sociedad se fundamenta en la comunidad y la familia incluye solo a los hijos."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 50 Del derecho a constituir familia de la Constitución Nacional de la República del Paraguay, ¿cuál es el principio fundamental relacionado con la formación y desarrollo de la familia?",
+                    answers: {
+                        a: "Tanto la mujer como el hombre tienen los mismos derechos y obligaciones en la formación y desarrollo de la familia.",
+                        b: "Solo la mujer tiene derechos en la formación y desarrollo de la familia.",
+                        c: "La formación y desarrollo de la familia se rige por principios tradicionales"
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 51 Del matrimonio y de los efectos de las uniones de hecho de la Constitución Nacional de la República del Paraguay, ¿qué efectos producen las uniones de hecho que cumplen con las condiciones establecidas por la ley?",
+                    answers: {
+                        a: " No producen ningún efecto.",
+                        b: "Producen efectos similares al matrimonio, pero solo en aspectos económicos.",
+                        c: " Producen efectos iguales al matrimonio en todos los aspectos."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "Según el artículo 52 De la unión en matrimonio de la Constitución Nacional de la República del Paraguay, ¿qué se considera como uno de los componentes fundamentales en la formación de la familia?",
+                    answers: {
+                        a: "La amistad.",
+                        b: "La unión en matrimonio del hombre y la mujer.",
+                        c: "La unión en sociedad."
+                    },
+                    correctAnswer: "b"
+                },
+                {
+                    question: "Según el artículo 53 De los hijos de la Constitución Nacional de la República del Paraguay, ¿cuáles son los derechos y obligaciones de los padres hacia sus hijos menores de edad?",
+                    answers: {
+                        a: "Tienen el derecho y la obligación de asistir, alimentar, educar y amparar a sus hijos menores de edad.",
+                        b: " Solo tienen el deber de educar a sus hijos.",
+                        c: "Tienen la obligación de amparar a sus hijos mayores de edad."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "Según el artículo 54 De la protección al niño de la Constitución Nacional de la República del Paraguay, ¿cuál es la obligación de la familia, la sociedad y el Estado hacia el niño?",
+                    answers: {
+                        a: "Solo la familia tiene la obligación de garantizar el desarrollo del niño.",
+                        b: "El Estado tiene la obligación de garantizar al niño su desarrollo, pero la familia no tiene responsabilidad.",
+                        c: "La sociedad y el Estado tienen la obligación de garantizar al niño su desarrollo armónico e integral, protegiéndolo contra diversos riesgos."
+                    },
+                    correctAnswer: "c"
+                },
+                {
+                    question: "¿Qué se promoverá según el artículo 56 De la juventud de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: " Las condiciones para la activa participación de la juventud en el desarrollo político, social, económico y cultural del país.",
+                        b: " La restricción de la participación de la juventud en el desarrollo del país.",
+                        c: " La participación pasiva de la juventud en el desarrollo del país."
+                    },
+                    correctAnswer: "a"
+                },
+                {
+                    question: "¿Cuáles son los aspectos específicos que cubre la protección integral según el artículo 57 De la tercera edad de la Constitución Nacional de la República del Paraguay?",
+                    answers: {
+                        a: "Exclusivamente la salud y alimentación.",
+                        b: "Alimentación y ocio.",
+                        c: "Salud, alimentación, vivienda, cultura y ocio."
+                    },
+                    correctAnswer: "c"
+                },
+                
+                
+   ];
+
+            // Muestra las preguntas en el contenedor
+            function displayQuiz() {
+                const output = [];
+                questions.forEach((question, questionIndex) => {
+                    const options = [];
+                    for (letter in question.answers) {
+                        options.push(
+                            `<label>
+                                <input type="radio" name="question${questionIndex}" value="${letter}">
+                                ${letter}: ${question.answers[letter]}
+                            </label>`
+                        );
+                    }
+                    output.push(
+                        `<div class="question">
+                            <h3>${question.question}</h3>
+                            <div class="options">
+                                ${options.join("")}
+                            </div>
+                        </div>`
+                    );
+                });
+                quizContainer.innerHTML = output.join("");
+            }
+
+            // Verifica las respuestas y muestra el puntaje y los resultados
+            function showResults() {
+                const answerContainers = quizContainer.querySelectorAll(".options");
+                let score = 0;
+                let numIncorrect = 0;
+
+                questions.forEach((question, questionIndex) => {
+                    const answerContainer = answerContainers[questionIndex];
+                    const selector = `input[name=question${questionIndex}]:checked`;
+                    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+                    if (userAnswer === question.correctAnswer) {
+                        score++;
+                        answerContainer.className = "options correct";
+                    } else {
+                        numIncorrect++;
+                        answerContainer.className = "options incorrect";
+                        // Muestra la respuesta correcta
+                        const correctOption = answerContainer.querySelector(`input[value=${question.correctAnswer}]`);
+                        correctOption.parentNode.style.color = "green";
+                    }
+                });
+
+                const resultPercentage = (score / questions.length) * 100;
+                resultContainer.innerHTML = `
+                    <p>Puntuación: ${score} / ${questions.length}</p>
+                    <p>Respuestas incorrectas: ${numIncorrect}</p>
+                    <p>Porcentaje de acierto: ${resultPercentage}%</p>
+                `;
+                resultContainer.style.display = "block";
+            }
+
+            // Event listener para el botón "Enviar"
+            submitButton.addEventListener("click", showResults);
+
+            // Muestra las preguntas al cargar la página
+            displayQuiz();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Materiales de apoyo</title>
+   <style>
+  .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.button {
+  position: relative;
+  display: inline-block;
+  margin: 20px;
+  padding: 10px 30px;
+  background-color: #4CAF50;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #3e8e41;
+}
+
+.button span {
+  position: relative;
+  z-index: 1;
+}
+
+.button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.button:hover:before {
+  opacity: 1;
+}
+
+.button:active:before {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.portada {
+  text-align: left;
+  background: black;
+  color: white;
+  padding: 20px;
+}
+ 
+   </style>
+  </head>
+  <body>
+      <div class="portada">
+          <h1>
+             <center>Haga click para descargar el material que  necesita</center> 
+          </h1>
+        <center> 
+            <a href="inicio.html">
+     <button> Volver al Inicio</button>
+</a> 
+            </center>
+     </div>
+      <center>
+     <div class="button-container">
+  <a href="C-N.pdf" download>
+    <div class="button">
+      <span>Constitucion Nacional PDF</span>
+    </div>
+  </a>
+  <a href="Ninez.pdf" download>
+    <div class="button">
+      <span>Codigo de la Ninez PDF</span>
+    </div>
+  </a>
+  <a href="/ruta/al/archivo3.pdf" download>
+    <div class="button">
+      <span>Descargar PDF 3</span>
+    </div>
+  </a>
+</div>
+
+      </center>
+  </body>
+</html>
